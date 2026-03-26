@@ -8,8 +8,8 @@
 
 <body>
   <H1>Controle De Produtos</H1>
-
   <h3>Cadastre seus produtos aqui</h3>
+
   <form id="AddForm">
     <input type="text" id="ProductName" placeholder="Nome do Produto" required>
     <input type="number" id="PurchasePrice" placeholder="Valor Unitário" required>
@@ -17,6 +17,8 @@
     <input type="number" id="Quantity" placeholder="Quantidade" required>
     <button type="submit">Adicionar</button>
   </form>
+
+  <h2 id="totalProfit"></h2>
 
   <ul id="ProductsList"></ul>
   <script src="script.js"></script>

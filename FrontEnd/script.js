@@ -91,10 +91,23 @@ function removeProduct(index) {
 loadProducts();
 // Fim LocalStorage
 
-// Mostrar Lucro Total
+// Cálculo Total Dashboard
 
-let total = 0;
+function calculateTotalProfit() {
+  let total = 0;
 
-products.forEach((p) => {
-  total += calculateProfit(p.purchase, p.selling, p.quantity);
-});
+  products.forEach((p) => {
+    total += calculateProfit(p.purchase, p.selling, p.quantity);
+  });
+  return total;
+}
+
+function updateTotalProfit() {
+  const totalElement = document.getElementById("totalProfit");
+  const total = calculateTotalProfit();
+  const color = total >= 0 ? "green" : "red";
+
+  totalElement.innerHTML = `Lucro Total: <span style="color:${color}">
+      ${formatCurrency(total)}
+    </span>`;
+}
