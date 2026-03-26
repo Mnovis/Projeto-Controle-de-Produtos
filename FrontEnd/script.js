@@ -21,14 +21,6 @@ form.addEventListener("submit", (e) => {
   products.push(product);
   saveProducts();
   renderProducts();
-
-  const item = document.createElement("li");
-  item.innerHTML = `
-  ${name} | Quantidade: ${quantity} | Valor Unitário: ${formatCurrency(purchase)} | Valor de Venda Unitária: ${formatCurrency(selling)} | 
-  <span style="color:${profitColor}"> Lucro: ${formatCurrency(profit)}</span>
-  <button onclick="this.parentElement.remove()">Excluir</button>`;
-
-  list.appendChild(item);
   form.reset();
 });
 
@@ -93,8 +85,16 @@ function renderProducts() {
 function removeProduct(index) {
   products.splice(index, 1);
   saveProducts();
-  renderProducts;
+  renderProducts();
 }
 // Inicializar Local Storage
 loadProducts();
 // Fim LocalStorage
+
+// Mostrar Lucro Total
+
+let total = 0;
+
+products.forEach((p) => {
+  total += calculateProfit(p.purchase, p.selling, p.quantity);
+});
