@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Controles de Produtos</title>
+</head>
+
+<body>
+  <H1>Controle De Produtos</H1>
+
+  <h3>Cadastre seus produtos aqui</h3>
+  <form id="AddForm">
+    <input type="text" id="ProductName" placeholder="Nome do Produto" required>
+    <input type="number" id="PurchasePrice" placeholder="Preço de Compra" required>
+    <input type="number" id="SellingPrice" placeholder="Preço de Venda" required>
+    <!-- <input type="text" id="Quantity" placeholder="Quantidade"> -->
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <ul id="ProductsList"></ul>
+  <script src="script.js"></script>
+</body>
+
+</html>
