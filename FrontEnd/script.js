@@ -80,6 +80,7 @@ function renderProducts() {
 
     list.appendChild(item);
   });
+  updateTotalProfit();
 }
 // Remover Item do LocalStorage
 function removeProduct(index) {

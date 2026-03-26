@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
   <title>Sistema de Controles de Produtos</title>
 </head>
 
 <body>
-  <H1>Controle De Produtos</H1>
-  <h3>Cadastre seus produtos aqui</h3>
+  <div class="container">
 
-  <form id="AddForm">
-    <input type="text" id="ProductName" placeholder="Nome do Produto" required>
-    <input type="number" id="PurchasePrice" placeholder="Valor Unitário" required>
-    <input type="number" id="SellingPrice" placeholder="Valor de Venda Unitária" required>
-    <input type="number" id="Quantity" placeholder="Quantidade" required>
-    <button type="submit">Adicionar</button>
-  </form>
+    <H1>Controle De Produtos</H1>
+    <div class="dashboard">
+      <h2 id="totalProfit"></h2>
+    </div>
+    <form id="AddForm" class="form">
+      <input type="text" id="ProductName" placeholder="Nome do Produto" required>
+      <input type="number" id="PurchasePrice" placeholder="Valor Unitário" required>
+      <input type="number" id="SellingPrice" placeholder="Valor de Venda Unitária" required>
+      <input type="number" id="Quantity" placeholder="Quantidade" required>
+      <button type="submit">Adicionar</button>
+    </form>
 
-  <h2 id="totalProfit"></h2>
 
-  <ul id="ProductsList"></ul>
+    <ul id="ProductsList" class="list"></ul>
+  </div>
   <script src="script.js"></script>
 </body>
 
