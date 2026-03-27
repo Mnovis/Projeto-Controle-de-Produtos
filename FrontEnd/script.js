@@ -2,15 +2,13 @@ const form = document.getElementById("AddForm");
 const list = document.getElementById("ProductsList");
 
 let products = [];
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.getElementById("ProductName").value;
   const quantity = Number(document.getElementById("Quantity").value);
   const purchase = Number(document.getElementById("PurchasePrice").value);
   const selling = Number(document.getElementById("SellingPrice").value);
-  const profit = calculateProfit(purchase, selling, quantity);
-  const profitColor = profit >= 0 ? "green" : "red";
 
   const product = {
     name,
@@ -18,9 +16,18 @@ form.addEventListener("submit", (e) => {
     purchase,
     selling,
   };
-  products.push(product);
-  saveProducts();
-  renderProducts();
+  // products.push(product);
+  // saveProducts();
+  // renderProducts();
+  await fetch("http://localhost:3000/products", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(product)
+});
+
+loadProducts(); // recarrega da API
   form.reset();
 });
 
@@ -45,12 +52,10 @@ function saveProducts() {
   localStorage.setItem("products", JSON.stringify(products));
 }
 
-function loadProducts() {
-  const data = localStorage.getItem("products");
+async function loadProducts() {
+  const res = await fetch("http://localhost:3000/products");
+  products = await res.json();
 
-  if (data) {
-    products = JSON.parse(data);
-  }
   renderProducts();
 }
 
@@ -75,7 +80,7 @@ function renderProducts() {
       <span style="color:${profitColor}">
         Lucro: ${formatCurrency(profit)}
       </span>
-      <button onclick="removeProduct(${index})">Excluir</button>
+      <button onclick="removeProduct('${product._id}')">Excluir</button>
     `;
 
     list.appendChild(item);
@@ -83,10 +88,12 @@ function renderProducts() {
   updateTotalProfit();
 }
 // Remover Item do LocalStorage
-function removeProduct(index) {
-  products.splice(index, 1);
-  saveProducts();
-  renderProducts();
+async function removeProduct(id) {
+  await fetch(`http://localhost:3000/products/${id}`, {
+    method: "DELETE"
+  });
+
+  loadProducts();
 }
 // Inicializar Local Storage
 loadProducts();
