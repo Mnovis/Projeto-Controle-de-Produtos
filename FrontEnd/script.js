@@ -13,7 +13,7 @@ form.addEventListener("submit", async (e) => {
     selling: Number(document.getElementById("SellingPrice").value),
   };
   if (editingId) {
-    await fetch(`http://localhost:3000/products/${editingId}`, {
+    await fetch(`https://controle-de-produtos-c2m1.onrender.com/${editingId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ form.addEventListener("submit", async (e) => {
     });
     editingId = null;
   } else {
-    await fetch("http://localhost:3000/products", {
+    await fetch("https://controle-de-produtos-c2m1.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function saveProducts() {
 }
 
 async function loadProducts() {
-  const res = await fetch("http://localhost:3000/products");
+  const res = await fetch("https://controle-de-produtos-c2m1.onrender.com");
   products = await res.json();
 
   renderProducts();
@@ -93,7 +93,7 @@ function renderProducts() {
 }
 // Remover Item
 async function removeProduct(id) {
-  await fetch(`http://localhost:3000/products/${id}`, {
+  await fetch(`https://controle-de-produtos-c2m1.onrender.com/${id}`, {
     method: "DELETE",
   });
 

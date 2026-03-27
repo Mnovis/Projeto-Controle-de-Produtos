@@ -14,8 +14,10 @@ mongoose
 app.use(cors());
 app.use(express.json());
 
-app.listen(3000, () => {
-  console.log("Porta do meu cu aberta");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Servidor Rodando");
 });
 
 const Product = require("./models/Product");
