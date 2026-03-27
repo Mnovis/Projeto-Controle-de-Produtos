@@ -5,7 +5,9 @@ const app = express();
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb+srv://Novis:Novis@cluster0.8qtfyct.mongodb.net/?appName=Cluster0")
+  .connect(
+    "mongodb+srv://Novis:Novis@cluster0.8qtfyct.mongodb.net/?appName=Cluster0",
+  )
   .then(() => console.log("Banco conectado"))
   .catch((err) => console.log(err));
 
@@ -13,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.listen(3000, () => {
-console.log("Porta do meu cu aberta");
+  console.log("Porta do meu cu aberta");
 });
 
 const Product = require("./models/Product");
@@ -31,4 +33,12 @@ app.get("/products", async (req, res) => {
 app.delete("/products/:id", async (req, res) => {
   await Product.findByIdAndDelete(req.params.id);
   res.send("Produto removido.");
+});
+
+app.put("/products/:id", async (req, res) => {
+  const updated = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.send(updated);
 });

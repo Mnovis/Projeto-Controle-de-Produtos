@@ -2,32 +2,35 @@ const form = document.getElementById("AddForm");
 const list = document.getElementById("ProductsList");
 
 let products = [];
+let editingId = null;
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const name = document.getElementById("ProductName").value;
-  const quantity = Number(document.getElementById("Quantity").value);
-  const purchase = Number(document.getElementById("PurchasePrice").value);
-  const selling = Number(document.getElementById("SellingPrice").value);
-
   const product = {
-    name,
-    quantity,
-    purchase,
-    selling,
+    name: document.getElementById("ProductName").value,
+    quantity: Number(document.getElementById("Quantity").value),
+    purchase: Number(document.getElementById("PurchasePrice").value),
+    selling: Number(document.getElementById("SellingPrice").value),
   };
-  // products.push(product);
-  // saveProducts();
-  // renderProducts();
-  await fetch("http://localhost:3000/products", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(product)
-});
-
-loadProducts(); // recarrega da API
+  if (editingId) {
+    await fetch(`http://localhost:3000/products/${editingId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    });
+    editingId = null;
+  } else {
+    await fetch("http://localhost:3000/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    });
+  }
+  loadProducts(); // recarrega da API
   form.reset();
 });
 
@@ -80,6 +83,7 @@ function renderProducts() {
       <span style="color:${profitColor}">
         Lucro: ${formatCurrency(profit)}
       </span>
+      <button onclick="editProduct('${product._id}')">Editar</button>
       <button onclick="removeProduct('${product._id}')">Excluir</button>
     `;
 
@@ -87,17 +91,16 @@ function renderProducts() {
   });
   updateTotalProfit();
 }
-// Remover Item do LocalStorage
+// Remover Item
 async function removeProduct(id) {
   await fetch(`http://localhost:3000/products/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
   });
 
   loadProducts();
 }
-// Inicializar Local Storage
+
 loadProducts();
-// Fim LocalStorage
 
 // Cálculo Total Dashboard
 
@@ -118,4 +121,15 @@ function updateTotalProfit() {
   totalElement.innerHTML = `Lucro Total: <span style="color:${color}">
       ${formatCurrency(total)}
     </span>`;
+}
+
+function editProduct(id) {
+  const product = products.find((p) => p._id === id);
+
+  document.getElementById("ProductName").value = product.name;
+  document.getElementById("Quantity").value = product.quantity;
+  document.getElementById("PurchasePrice").value = product.purchase;
+  document.getElementById("SellingPrice").value = product.selling;
+
+  editingId = id;
 }
